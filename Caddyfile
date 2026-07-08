@@ -1,0 +1,16 @@
+# Caddy configuration for automated Let's Encrypt SSL/TLS
+{$DOMAIN} {
+    # Proxy requests to the Go radio container
+    reverse_proxy radio:67
+
+    # Enable gzip/zstd compression for static assets
+    encode gzip zstd
+
+    # Optional: Log requests
+    log {
+        output file /var/log/caddy/access.log {
+            roll_size 10mb
+            roll_keep 5
+        }
+    }
+}

@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  radio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: radio_app
+    restart: unless-stopped
+    environment:
+      - PORT=67
+      - STATIONS_DIR=/stations
+    volumes:
+      # Mount host directory for stations. Change './stations' on the host as needed.
+      - ./stations:/stations
+    # Ports do not need to be exposed to the host as Caddy communicates with the app container inside the Docker network.
+
+  caddy:
+    image: caddy:alpine
+    container_name: caddy_proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "67:443"
+      - "67:443/udp" # Enables HTTP/3
+    environment:
+      - DOMAIN=penis-music.ru # REPLACE THIS WITH YOUR DOMAIN
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data      # Crucial: Persists Let's Encrypt keys/certs to prevent rate limiting
+      - caddy_config:/config  # Persists Caddy config states
+    depends_on:
+      - radio
+
+volumes:
+  caddy_data:
+  caddy_config:

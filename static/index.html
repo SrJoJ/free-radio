@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Radio - A premium, lightweight static frontend radio stream player featuring dynamic audio visualizers and real-time waveforms.">
+    <title>Free Radio | Static Player</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background glow elements -->
+    <div class="bg-glow blob-1"></div>
+    <div class="bg-glow blob-2"></div>
+    <div class="bg-glow blob-3"></div>
+
+    <div class="app-container">
+        <!-- Sidebar: Station selection (Configured in app.js) -->
+        <aside class="sidebar glass">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-tower-broadcast logo-icon animate-pulse"></i>
+                    <h1>Free<span>Radio</span></h1>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search station list...">
+            </div>
+
+            <!-- Station List (Rendered statically from config in app.js) -->
+            <div class="station-list-container">
+                <ul class="station-list" id="station-list">
+                    <!-- Configured stations injected here -->
+                </ul>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="status-dot online"></span>
+                    <span class="status-text">Static Frontend Mode</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area: Player & Visualizer -->
+        <main class="main-content">
+            <!-- Player Card -->
+            <div class="player-card glass">
+                
+                <!-- Visualizer and Vinyl View -->
+                <div class="visualizer-container">
+                    <canvas id="visualizer-canvas"></canvas>
+                    
+                    <!-- Floating Record Overlay -->
+                    <div class="vinyl-wrapper" id="vinyl-wrapper">
+                        <div class="vinyl" id="vinyl-disc">
+                            <div class="vinyl-center"></div>
+                            <img id="player-logo" src="" alt="Station Logo" class="vinyl-art">
+                        </div>
+                    </div>
+                    
+                    <div class="visualizer-controls">
+                        <button id="visualizer-theme-btn" class="btn btn-icon glass-btn" title="Change Visualizer Theme">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </button>
+                        <span id="visualizer-theme-label" class="visualizer-label">Classic Bars</span>
+                    </div>
+                </div>
+
+                <!-- Now Playing Details -->
+                <div class="track-details">
+                    <div class="station-meta">
+                        <span id="player-genre" class="genre-badge">Radio Stream</span>
+                        <div class="live-indicator">
+                            <span class="live-dot animate-ping-fast"></span>
+                            <span class="live-text">LIVE</span>
+                        </div>
+                    </div>
+                    <h2 id="player-station-name">Select a Station</h2>
+                    <div class="track-scroll-container">
+                        <div id="player-track-title" class="track-title">Ready to stream</div>
+                    </div>
+                </div>
+
+                <!-- Player Control Panel -->
+                <div class="controls-panel">
+                    <div class="controls-row">
+                        <!-- Playback Status -->
+                        <div class="stream-timer" id="stream-timer">00:00:00</div>
+                        
+                        <!-- Main Action Buttons -->
+                        <div class="playback-controls">
+                            <button id="play-btn" class="btn btn-play" title="Play">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+                        </div>
+
+                        <!-- Volume Controls -->
+                        <div class="volume-container">
+                            <button id="mute-btn" class="btn btn-icon" title="Mute">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.7" title="Volume">
+                            <span id="volume-tooltip" class="volume-value">70%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating Audio Element -->
+    <!-- crossorigin="anonymous" enables visualizer to read cross-origin audio data if CORS is configured on the stream server -->
+    <audio id="audio-player" crossorigin="anonymous"></audio>
+
+    <!-- JS script -->
+    <script src="app.js"></script>
+</body>
+</html>
